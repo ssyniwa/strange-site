@@ -144,17 +144,24 @@ TOTAL_DAYS = 10
 
 def init_round():
     spots_copy = [dict(s) for s in ALL_SPOTS]
-    st.session_state.has_anomaly = random.choice([True, False])
-    st.session_state.anomaly_type = None
-    st.session_state.anomaly_spot_index = None
 
-    if st.session_state.has_anomaly:
-        anomaly_type = random.choice(
-            ["text", "image", "name", "button_reverse", "order_shuffle"]
-        )
-        st.session_state.anomaly_type = anomaly_type
-        target_idx = random.randint(0, len(spots_copy) - 1)
-        st.session_state.anomaly_spot_index = target_idx
+    # 1日目は必ず異しゃれ無し（正常）にする
+    if st.session_state.day == 1:
+        st.session_state.has_anomaly = False
+        st.session_state.anomaly_type = None
+        st.session_state.anomaly_spot_index = None
+    else:
+        st.session_state.has_anomaly = random.choice([True, False])
+        st.session_state.anomaly_type = None
+        st.session_state.anomaly_spot_index = None
+
+        if st.session_state.has_anomaly:
+            anomaly_type = random.choice(
+                ["text", "image", "name", "button_reverse", "order_shuffle"]
+            )
+            st.session_state.anomaly_type = anomaly_type
+            target_idx = random.randint(0, len(spots_copy) - 1)
+            st.session_state.anomaly_spot_index = target_idx
 
     st.session_state.current_spots = spots_copy
     st.session_state.message = ""
@@ -169,8 +176,9 @@ if not st.session_state.started:
     st.subheader("【ルール説明】")
     st.markdown(
         """
-    * 架空の10大観光地ガイドをチェックしながら、10日間の旅の完遂（脱出）を目指します。
+    * 8/10から8/19までの10日間、架空の10大観光地ガイドをチェックしながら脱出を目指します。
     * 案内の中にわずかでも**「異変」**がないか、10か所すべてを注意深く観察してください。
+    * ※なお、1日目（8/10）は必ず安全な状態（異変なし）から始まります。
     * 発生する異変の種類：
       1. **文章の異変**：特定の案内文がホラー風に変わる
       2. **写真の異変**：特定の写真が不気味なものに変わる
@@ -179,7 +187,7 @@ if not st.session_state.started:
       5. **配置の異変**：観光地の並び順がいつもと違っている
     * **異変がある場合**：**「🔄 再読み込みする」** ボタンを押す。
     * **異変がない場合**：**「➡️ 次の観光案内へ（1日進む）」** ボタンを押す。
-    * 間違うと、容赦なく **1日目** に戻されます。
+    * 間違うと、容赦なく **1日目（8/10）** に戻されます。
     """
     )
     if st.button("ゲームスタート", type="primary", use_container_width=True):
@@ -188,11 +196,15 @@ if not st.session_state.started:
         init_round()
         st.rerun()
 
-# クリア画面
+# クリア画面（8/20表示）
 elif st.session_state.day > TOTAL_DAYS:
     st.markdown("---")
+    st.markdown(
+        '<div class="date-header">📅 8月20日（クリア・脱出成功）</div>',
+        unsafe_allow_html=True,
+    )
     st.success(
-        "🎉 おめでとうございます！10日間のすべての異変を完璧に見抜き、無事に現実世界へ脱出成功しました！"
+        "🎉 おめでとうございます！10日間のすべての異変を完璧に見抜き、8月20日を迎えて無事に現実世界へ脱出成功しました！"
     )
     st.balloons()
     if st.button("もう一度プレイする", use_container_width=True):
@@ -200,11 +212,13 @@ elif st.session_state.day > TOTAL_DAYS:
         st.session_state.day = 1
         st.rerun()
 
-# プレイ中画面
+# プレイ中画面（8/10 ~ 8/19）
 else:
-    # ── 最上部の日付・進捗表示エリア ──
+    # 日付の計算 (第1日目 = 8/10, 第2日目 = 8/11, ..., 第10日目 = 8/19)
+    current_date_str = f"8月{9 + st.session_state.day}日"
+
     st.markdown(
-        f'<div class="date-header">📅 現在の旅程: 第 {st.session_state.day} 日目 / 全 {TOTAL_DAYS} 日</div>',
+        f'<div class="date-header">📅 {current_date_str} (第 {st.session_state.day} 日目 / 全 {TOTAL_DAYS} 日)</div>',
         unsafe_allow_html=True,
     )
     st.progress(st.session_state.day / TOTAL_DAYS)
@@ -284,11 +298,11 @@ else:
             init_round()
             if st.session_state.has_anomaly:
                 st.session_state.message = (
-                    "❌ 異変を見落とした！1日目に戻されます。"
+                    "❌ 異変を見落とした！8月10日（1日目）に戻されます。"
                 )
             else:
                 st.session_state.message = (
-                    "❌ 異変はないのに再読み込みしてしまった！1日目に戻されます。"
+                    "❌ 異変はないのに再読み込みしてしまった！8月10日（1日目）に戻されます。"
                 )
             st.rerun()
 
