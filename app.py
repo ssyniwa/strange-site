@@ -376,7 +376,7 @@ else:
         with col1:
             if st.button(
                 "➡️ 次の観光案内へ\n(異変なし)",
-                key="btn_next_normal",
+                key="btn_action_left",
                 use_container_width=True,
                 type="secondary",
             ):
@@ -384,7 +384,7 @@ else:
         with col2:
             if st.button(
                 "🔄 再読み込みする\n(異変あり)",
-                key="btn_reload_normal",
+                key="btn_action_right",
                 use_container_width=True,
                 type="primary",
             ):
@@ -393,7 +393,7 @@ else:
         with col1:
             if st.button(
                 "🔄 再読み込みする\n(異変あり)",
-                key="btn_reload_rev",
+                key="btn_action_left",
                 use_container_width=True,
                 type="primary",
             ):
@@ -401,7 +401,7 @@ else:
         with col2:
             if st.button(
                 "➡️ 次の観光案内へ\n(異変なし)",
-                key="btn_next_rev",
+                key="btn_action_right",
                 use_container_width=True,
                 type="secondary",
             ):
