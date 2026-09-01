@@ -413,4 +413,4 @@ else:
             type=right_config["type"],
         ):
             right_config["action"]()
-```[cite: 6]
+
