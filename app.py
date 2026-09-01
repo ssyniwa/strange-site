@@ -368,49 +368,51 @@ else:
                 )
             st.rerun()
 
-    # ★修正：ウィジェットの構造自体は固定し、ボタンの割り当て（ラベル・アクション・種類）を切り替える
+    # ★修正：ボタンのウィジェット自体は固定し、異変時はカラム（列）の生成順を入れ替える
+    col1, col2 = st.columns(2)
+
+    # 異変時は左右のカラムに渡すウィジェットの構成を逆にする
     if not is_button_reversed:
-        # 通常配置（左：次へ、右：再読み込み）
-        left_config = {
+        left_args = {
             "label": "➡️ 次の観光案内へ\n(異変なし)",
             "type": "secondary",
             "action": lambda: handle_choice(chose_reload=False),
+            "key": "btn_action_left",
         }
-        right_config = {
+        right_args = {
             "label": "🔄 再読み込みする\n(異変あり)",
             "type": "primary",
             "action": lambda: handle_choice(chose_reload=True),
+            "key": "btn_action_right",
         }
     else:
-        # 逆転配置（左：再読み込み、右：次へ）
-        left_config = {
+        left_args = {
             "label": "🔄 再読み込みする\n(異変あり)",
             "type": "primary",
             "action": lambda: handle_choice(chose_reload=True),
+            "key": "btn_action_right",
         }
-        right_config = {
+        right_args = {
             "label": "➡️ 次の観光案内へ\n(異変なし)",
             "type": "secondary",
             "action": lambda: handle_choice(chose_reload=False),
+            "key": "btn_action_left",
         }
-
-    col1, col2 = st.columns(2)
 
     with col1:
         if st.button(
-            left_config["label"],
-            key="btn_action_left",
+            left_args["label"],
+            key=left_args["key"] + "_col1",
             use_container_width=True,
-            type=left_config["type"],
+            type=left_args["type"],
         ):
-            left_config["action"]()
+            left_args["action"]()
 
     with col2:
         if st.button(
-            right_config["label"],
-            key="btn_action_right",
+            right_args["label"],
+            key=right_args["key"] + "_col2",
             use_container_width=True,
-            type=right_config["type"],
+            type=right_args["type"],
         ):
-            right_config["action"]()
-
+            right_args["action"]()
