@@ -368,51 +368,41 @@ else:
                 )
             st.rerun()
 
-    # ★修正：ボタンのウィジェット自体は固定し、異変時はカラム（列）の生成順を入れ替える
+    # ★修正：固定のキーを使用し、配置の反転に応じて描画するカラムと中身を直接入れ替える
     col1, col2 = st.columns(2)
 
-    # 異変時は左右のカラムに渡すウィジェットの構成を逆にする
     if not is_button_reversed:
-        left_args = {
-            "label": "➡️ 次の観光案内へ\n(異変なし)",
-            "type": "secondary",
-            "action": lambda: handle_choice(chose_reload=False),
-            "key": "btn_action_left",
-        }
-        right_args = {
-            "label": "🔄 再読み込みする\n(異変あり)",
-            "type": "primary",
-            "action": lambda: handle_choice(chose_reload=True),
-            "key": "btn_action_right",
-        }
+        with col1:
+            if st.button(
+                "➡️ 次の観光案内へ\n(異変なし)",
+                key="btn_next",
+                type="secondary",
+                use_container_width=True,
+            ):
+                handle_choice(chose_reload=False)
+        with col2:
+            if st.button(
+                "🔄 再読み込みする\n(異変あり)",
+                key="btn_reload",
+                type="primary",
+                use_container_width=True,
+            ):
+                handle_choice(chose_reload=True)
     else:
-        left_args = {
-            "label": "🔄 再読み込みする\n(異変あり)",
-            "type": "primary",
-            "action": lambda: handle_choice(chose_reload=True),
-            "key": "btn_action_right",
-        }
-        right_args = {
-            "label": "➡️ 次の観光案内へ\n(異変なし)",
-            "type": "secondary",
-            "action": lambda: handle_choice(chose_reload=False),
-            "key": "btn_action_left",
-        }
-
-    with col1:
-        if st.button(
-            left_args["label"],
-            key=left_args["key"] + "_col1",
-            use_container_width=True,
-            type=left_args["type"],
-        ):
-            left_args["action"]()
-
-    with col2:
-        if st.button(
-            right_args["label"],
-            key=right_args["key"] + "_col2",
-            use_container_width=True,
-            type=right_args["type"],
-        ):
-            right_args["action"]()
+        with col1:
+            if st.button(
+                "🔄 再読み込みする\n(異変あり)",
+                key="btn_reload",
+                type="primary",
+                use_container_width=True,
+            ):
+                handle_choice(chose_reload=True)
+        with col2:
+            if st.button(
+                "➡️ 次の観光案内へ\n(異変なし)",
+                key="btn_next",
+                type="secondary",
+                use_container_width=True,
+            ):
+                handle_choice(chose_reload=False)
+    
