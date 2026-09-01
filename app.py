@@ -123,7 +123,16 @@ ALL_SPOTS = [
         "horror_text": "豊かな湯けむりに包まれているはずの温泉郷一帯は、強烈な酸性の異臭と熱い血煙に覆われている。美しい渓谷の湯船からもうもうと立ち上るのは、沸騰した人間の血と溶解した肉の臭いそのものである。湯に足を踏み入れた瞬間、皮膚がただれて骨へと溶け落ちる。",
     },
 ]
-
+# --- 幻の11個目のスポットデータ ---
+GHOST_SPOT = {
+    "id": "spot_11_ghost",
+    "name": "【存在しない禁忌の洋館】",
+    "normal_text": "この場所に関する公式な記録は一切存在しない。しかし、なぜかあなたを呼ぶ声がどこからともなく聞こえてくる。決して足を踏み入れてはならない、迷い込んだら二度と戻れない終わりの観光地。",
+    "normal_image": "images/negahouse.jpg",
+    "horror_image": "images/negahouse.jpg",
+    "fake_name": "【存在しない禁忌の展望台】",
+    "horror_text": "この場所に関する公式な記録は一切存在しない。しかし、なぜかあなたを呼ぶ声がどこからともなく聞こえてくる。決して足を踏み入れてはならない、迷い込んだら二度と戻れない終わりの観光地。",
+}
 # --- セッション状態の初期化 ---
 if "started" not in st.session_state:
     st.session_state.started = False
@@ -161,7 +170,7 @@ def init_round():
 
         if st.session_state.has_anomaly:
             anomaly_type = random.choice(
-                ["text", "image", "name", "button_reverse", "order_shuffle"]
+                ["text", "image", "name", "button_reverse", "order_shuffle", "extra_spot", "blood_theme"]
             )
             st.session_state.anomaly_type = anomaly_type
             target_idx = random.randint(0, len(spots_copy) - 1)
@@ -170,6 +179,11 @@ def init_round():
     # ★変更：ここで一度だけシャッフルを確定させ、セッションに保持する
     if st.session_state.has_anomaly and st.session_state.anomaly_type == "order_shuffle":
         random.shuffle(spots_copy)
+
+    # 11個目の架空スポット異変の場合、ランダムな位置にゴーストスポットを挿入
+    if st.session_state.has_anomaly and st.session_state.anomaly_type == "extra_spot":
+        insert_pos = random.randint(0, len(spots_copy))
+        spots_copy.insert(insert_pos, dict(GHOST_SPOT))
 
     st.session_state.current_spots = spots_copy
     st.session_state.message = ""
@@ -193,6 +207,8 @@ if not st.session_state.started:
       3. **観光地名の異変**：特定の名称が禍々しいものに変わる
       4. **UIの異変**：アクションボタンの配置が左右逆転する
       5. **配置の異変**：観光地の並び順がいつもと違っている
+      6. **幻のスポット**：存在しない11個目の不気味な観光地が紛れ込む
+      7. **配色の異変**：画面のアクセントカラーが血の赤色に染まる
     * **異変がある場合**：**「🔄 再読み込みする」** ボタンを押す。
     * **異変がない場合**：**「➡️ 次の観光案内へ（1日進む）」** ボタンを押す。
     * 間違うと、容赦なく **1日目（8/10）** に戻されます。
@@ -224,23 +240,43 @@ elif st.session_state.day > TOTAL_DAYS:
 else:
     current_date_str = f"8月{9 + st.session_state.day}日"
 
+    spots = st.session_state.current_spots
+    is_button_reversed = False
+    is_blood_theme = False
+    
+    # UI異変チェック
+    if st.session_state.has_anomaly:
+        if st.session_state.anomaly_type == "button_reverse":
+            is_button_reversed = True
+        elif st.session_state.anomaly_type == "blood_theme":
+            is_blood_theme = True
+
+    # 血濡れテーマが有効な場合のカスタムCSS注入
+    if is_blood_theme:
+        st.markdown(
+            """
+            <style>
+            /* 進捗バーやアクセントを血の赤・黒に染める */
+            .stProgress > div > div > div > div {
+                background-color: #8B0000 !important;
+            }
+            .date-header {
+                color: #8B0000 !important;
+                text-shadow: 0 0 5px #ff0000;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+
     st.markdown(
         f'<div class="date-header">📅 {current_date_str} (第 {st.session_state.day} 日目 / 全 {TOTAL_DAYS} 日)</div>',
         unsafe_allow_html=True,
     )
     st.progress(st.session_state.day / TOTAL_DAYS)
+    if is_blood_theme:
+        st.caption("⚠️ 【警告】システム異常：UIセーフティカラーが破損しています")
     st.markdown("---")
-
-    spots = st.session_state.current_spots
-    is_button_reversed = False
-
-    
-    # UI異変チェック
-    if (
-        st.session_state.has_anomaly
-        and st.session_state.anomaly_type == "button_reverse"
-    ):
-        is_button_reversed = True
 
     # 10種の観光案内を2つずつ並べて表示するために、2つずつのペアに分割
     for i in range(0, len(spots), 2):
