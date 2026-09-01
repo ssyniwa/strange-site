@@ -236,7 +236,7 @@ else:
         and st.session_state.anomaly_type == "order_shuffle"
     ):
         random.shuffle(spots)
-
+        pass
     # UI異変チェック
     if (
         st.session_state.has_anomaly
@@ -378,6 +378,7 @@ else:
         with col1:
             if st.button(
                 "➡️ 次の観光案内へ\n(異変なし)",
+                key="btn_next_normal",
                 use_container_width=True,
                 type="secondary",
             ):
@@ -385,6 +386,7 @@ else:
         with col2:
             if st.button(
                 "🔄 再読み込みする\n(異変あり)",
+                key="btn_reload_normal",
                 use_container_width=True,
                 type="primary",
             ):
@@ -393,6 +395,7 @@ else:
         with col1:
             if st.button(
                 "🔄 再読み込みする\n(異変あり)",
+                key="btn_reload_rev",
                 use_container_width=True,
                 type="primary",
             ):
@@ -400,6 +403,7 @@ else:
         with col2:
             if st.button(
                 "➡️ 次の観光案内へ\n(異変なし)",
+                key="btn_next_rev",
                 use_container_width=True,
                 type="secondary",
             ):
