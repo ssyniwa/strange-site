@@ -3,7 +3,7 @@ import streamlit as st
 
 # ページの基本設定
 st.set_page_config(
-    page_title="異変観光案内からの脱出", page_icon="🗺️", layout="centered"
+    page_title="10日観光案内", page_icon="🗺️", layout="centered"
 )
 
 # --- ホラー風フォント用のカスタムCSS ---
@@ -24,7 +24,7 @@ st.markdown(
 )
 
 # --- 架空の人気観光地10種データ ---
-SPOTS = [
+ALL_SPOTS = [
     {
         "id": "spot_1",
         "name": "セレスティア浮遊島",
@@ -120,120 +120,149 @@ SPOTS = [
 # --- セッション状態の初期化 ---
 if "started" not in st.session_state:
     st.session_state.started = False
-if "stage" not in st.session_state:
-    st.session_state.stage = 0
-if "current_spot" not in st.session_state:
-    st.session_state.current_spot = None
+if "day" not in st.session_state:
+    st.session_state.day = 1
+if "current_spots" not in st.session_state:
+    st.session_state.current_spots = []
 if "has_anomaly" not in st.session_state:
     st.session_state.has_anomaly = False
 if "anomaly_type" not in st.session_state:
     st.session_state.anomaly_type = None
+if "anomaly_spot_index" not in st.session_state:
+    st.session_state.anomaly_spot_index = None
 if "message" not in st.session_state:
     st.session_state.message = ""
 
-MAX_STAGE = 6
+TOTAL_DAYS = 10
 
 
 def init_round():
-    """新しいステージの状態をランダムに決定する"""
-    st.session_state.current_spot = random.choice(SPOTS)
+    """新しい日の状態を決定する（10種全てを並べ、ランダムで異変を仕込む）"""
+    # 毎回10種の観光地を基準の順番通り（またはシャッフルして）用意
+    spots_copy = [dict(s) for s in ALL_SPOTS]
+
     st.session_state.has_anomaly = random.choice([True, False])
+    st.session_state.anomaly_type = None
+    st.session_state.anomaly_spot_index = None
 
     if st.session_state.has_anomaly:
-        st.session_state.anomaly_type = random.choice(
-            ["text", "image", "name", "button_reverse"]
+        # 5種類の異変からランダムに選択
+        anomaly_type = random.choice(
+            ["text", "image", "name", "button_reverse", "order_shuffle"]
         )
-    else:
-        st.session_state.anomaly_type = None
+        st.session_state.anomaly_type = anomaly_type
 
+        # 配置の入れ替え（order_shuffle）以外の異変は、10つのうちのどれか1つに発生させる
+        target_idx = random.randint(0, len(spots_copy) - 1)
+        st.session_state.anomaly_spot_index = target_idx
+
+    st.session_state.current_spots = spots_copy
     st.session_state.message = ""
 
 
 # --- ゲーム画面の構築 ---
-st.title("🗺️ 異変観光案内からの脱出")
+st.title("🗺️ 10日観光案内")
 st.markdown("---")
 
 # スタート画面
 if not st.session_state.started:
-    st.subheader("【ルール説明 - 8番出口風】")
+    st.subheader("【ルール説明】")
     st.markdown(
         """
-    * 架空の人気観光地ガイドを次々とチェックし、脱出を目指します。
-    * 案内の中にわずかでも**「異変」**がないか注意深く観察してください。
-    * 異変の種類：
-      1. **文章の異変**：ホラー風の不気味な文章への変化
-      2. **写真の異変**：ホラー風の風景への変化
-      3. **観光地名の異変**：禍々しい名称への変化
-      4. **UIの異変**：ボタンの配置（左右）の逆転
+    * 架空の10大観光地ガイドをチェックしながら、10日間の旅の完遂（脱出）を目指します。
+    * 案内の中にわずかでも**「異変」**がないか、10か所すべてを注意深く観察してください。
+    * 発生する異変の種類：
+      1. **文章の異変**：特定の案内文がホラー風に変わる
+      2. **写真の異変**：特定の写真が不気味なものに変わる
+      3. **観光地名の異変**：特定の名称が禍々しいものに変わる
+      4. **UIの異変**：アクションボタンの配置が左右逆転する
+      5. **配置の異変**：観光地の並び順がいつもと違っている
     * **異変がある場合**：**「🔄 再読み込みする」** ボタンを押す。
-    * **異変がない場合**：**「➡️ 次の観光案内へ」** ボタンを押す。
-    * 間ジると、**容赦なくステージ1に戻されます**。全6ステージを突破してください！
+    * **異変がない場合**：**「➡️ 次の観光案内へ（1日進む）」** ボタンを押す。
+    * 間違うと、容赦なく **1日目** に戻されます。
     """
     )
     if st.button("ゲームスタート", type="primary", use_container_width=True):
         st.session_state.started = True
-        st.session_state.stage = 1
+        st.session_state.day = 1
         init_round()
         st.rerun()
 
 # クリア画面
-elif st.session_state.stage > MAX_STAGE:
+elif st.session_state.day > TOTAL_DAYS:
     st.success(
-        "🎉 おめでとうございます！すべての異変を完璧に見抜き、無事に現実世界へ脱出成功しました！"
+        "🎉 おめでとうございます！10日間のすべての異変を完璧に見抜き、無事に現実世界へ脱出成功しました！"
     )
     st.balloons()
     if st.button("もう一度プレイする", use_container_width=True):
         st.session_state.started = False
-        st.session_state.stage = 0
+        st.session_state.day = 1
         st.rerun()
 
 # プレイ中画面
 else:
     st.progress(
-        st.session_state.stage / MAX_STAGE,
-        text=f"脱出進捗: ステージ {st.session_state.stage} / {MAX_STAGE}",
+        st.session_state.day / TOTAL_DAYS,
+        text=f"現在の旅程: 第 {st.session_state.day} 日目 / 全 {TOTAL_DAYS} 日",
     )
 
-    spot = st.session_state.current_spot
-
-    # 表示用データの初期化（通常）
-    display_name = spot["name"]
-    display_text = spot["normal_text"]
-    display_image = spot["normal_image"]
+    spots = st.session_state.current_spots
     is_button_reversed = False
-    is_text_anomaly = False
 
-    # 異変の適用
-    if st.session_state.has_anomaly:
-        atype = st.session_state.anomaly_type
-        if atype == "text":
-            display_text = spot["horror_text"]
-            is_text_anomaly = True  # ← 異変タイプが text の時だけTrueにする
-        elif atype == "image":
-            display_image = spot["horror_image"]
-        elif atype == "name":
-            display_name = spot["fake_name"]
-        elif atype == "button_reverse":
-            is_button_reversed = True
+    # 配置異変（order_shuffle）の場合、このラウンドだけリストの順番をランダムにシャッフルする
+    if (
+        st.session_state.has_anomaly
+        and st.session_state.anomaly_type == "order_shuffle"
+    ):
+        # 毎回確実に崩れるようにシャッフル
+        random.shuffle(spots)
 
-    # 観光案内カードの表示
-    with st.container(border=True):
-        st.markdown(f"### 📍 観光地: {display_name}")
-        st.image(
-            display_image, use_container_width=True, caption="公式観光ガイド画像"
-        )
+    # 各種異変の適用チェック
+    if (
+        st.session_state.has_anomaly
+        and st.session_state.anomaly_type == "button_reverse"
+    ):
+        is_button_reversed = True
 
-        # テキスト異変のとき（異変がある場合）のみホラー風フォント/スタイルを適用
-        if is_text_anomaly:
-            st.markdown(
-                f'<p class="horror-text">{display_text}</p>',
-                unsafe_allow_html=True,
+    # 10種の観光案内カードを順番に表示
+    for idx, spot in enumerate(spots):
+        display_name = spot["name"]
+        display_text = spot["normal_text"]
+        display_image = spot["normal_image"]
+        is_text_anomaly = False
+
+        # 特定のスポットに個別の異変（text, image, name）を適用
+        if (
+            st.session_state.has_anomaly
+            and st.session_state.anomaly_spot_index == idx
+        ):
+            atype = st.session_state.anomaly_type
+            if atype == "text":
+                display_text = spot["horror_text"]
+                is_text_anomaly = True
+            elif atype == "image":
+                display_image = spot["horror_image"]
+            elif atype == "name":
+                display_name = spot["fake_name"]
+
+        with st.container(border=True):
+            st.markdown(f"### 📍 [{idx+1}/10] 観光地: {display_name}")
+            st.image(
+                display_image,
+                use_container_width=True,
+                caption="公式観光ガイド画像",
             )
-        else:
-            st.write(display_text)
 
-        if is_button_reversed:
-            st.caption("（※ボタンの並び順に妙な違和感がある……）")
+            if is_text_anomaly:
+                st.markdown(
+                    f'<p class="horror-text">{display_text}</p>',
+                    unsafe_allow_html=True,
+                )
+            else:
+                st.write(display_text)
+
+    if is_button_reversed:
+        st.caption("（※ボタンの並び順に妙な違和感がある……）")
 
     if st.session_state.message:
         st.warning(st.session_state.message)
@@ -245,19 +274,19 @@ else:
 
     def handle_choice(chose_reload: bool):
         if chose_reload == st.session_state.has_anomaly:
-            st.session_state.stage += 1
+            st.session_state.day += 1
             init_round()
             st.rerun()
         else:
-            st.session_state.stage = 1
+            st.session_state.day = 1
             init_round()
             if st.session_state.has_anomaly:
                 st.session_state.message = (
-                    "❌ 異変を見落とした！最初のステージに戻されます。"
+                    "❌ 異変を見落とした！1日目に戻されます。"
                 )
             else:
                 st.session_state.message = (
-                    "❌ 異変はないのに再読み込みしてしまった！最初のステージに戻されます。"
+                    "❌ 異変はないのに再読み込みしてしまった！1日目に戻されます。"
                 )
             st.rerun()
 
