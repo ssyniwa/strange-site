@@ -152,7 +152,10 @@ def init_round():
         st.session_state.anomaly_type = None
         st.session_state.anomaly_spot_index = None
     else:
-        st.session_state.has_anomaly = random.choice([True, False])
+        # 異変の発生率を70%に引き上げ（weights=[7, 3]で調整）
+        st.session_state.has_anomaly = random.choices(
+            [True, False], weights=[7, 3], k=1
+        )[0]
         st.session_state.anomaly_type = None
         st.session_state.anomaly_spot_index = None
 
