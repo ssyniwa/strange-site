@@ -18,6 +18,12 @@ st.markdown(
         font-size: 1.2rem;
         letter-spacing: 2px;
     }
+    .date-header {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #ff4b4b;
+        margin-bottom: 0.5rem;
+    }
     </style>
     """,
     unsafe_allow_html=True,
@@ -137,22 +143,16 @@ TOTAL_DAYS = 10
 
 
 def init_round():
-    """新しい日の状態を決定する（10種全てを並べ、ランダムで異変を仕込む）"""
-    # 毎回10種の観光地を基準の順番通り（またはシャッフルして）用意
     spots_copy = [dict(s) for s in ALL_SPOTS]
-
     st.session_state.has_anomaly = random.choice([True, False])
     st.session_state.anomaly_type = None
     st.session_state.anomaly_spot_index = None
 
     if st.session_state.has_anomaly:
-        # 5種類の異変からランダムに選択
         anomaly_type = random.choice(
             ["text", "image", "name", "button_reverse", "order_shuffle"]
         )
         st.session_state.anomaly_type = anomaly_type
-
-        # 配置の入れ替え（order_shuffle）以外の異変は、10つのうちのどれか1つに発生させる
         target_idx = random.randint(0, len(spots_copy) - 1)
         st.session_state.anomaly_spot_index = target_idx
 
@@ -162,10 +162,10 @@ def init_round():
 
 # --- ゲーム画面の構築 ---
 st.title("🗺️ 10日観光案内")
-st.markdown("---")
 
 # スタート画面
 if not st.session_state.started:
+    st.markdown("---")
     st.subheader("【ルール説明】")
     st.markdown(
         """
@@ -190,6 +190,7 @@ if not st.session_state.started:
 
 # クリア画面
 elif st.session_state.day > TOTAL_DAYS:
+    st.markdown("---")
     st.success(
         "🎉 おめでとうございます！10日間のすべての異変を完璧に見抜き、無事に現実世界へ脱出成功しました！"
     )
@@ -201,23 +202,25 @@ elif st.session_state.day > TOTAL_DAYS:
 
 # プレイ中画面
 else:
-    st.progress(
-        st.session_state.day / TOTAL_DAYS,
-        text=f"現在の旅程: 第 {st.session_state.day} 日目 / 全 {TOTAL_DAYS} 日",
+    # ── 最上部の日付・進捗表示エリア ──
+    st.markdown(
+        f'<div class="date-header">📅 現在の旅程: 第 {st.session_state.day} 日目 / 全 {TOTAL_DAYS} 日</div>',
+        unsafe_allow_html=True,
     )
+    st.progress(st.session_state.day / TOTAL_DAYS)
+    st.markdown("---")
 
     spots = st.session_state.current_spots
     is_button_reversed = False
 
-    # 配置異変（order_shuffle）の場合、このラウンドだけリストの順番をランダムにシャッフルする
+    # 配置異変（order_shuffle）の場合
     if (
         st.session_state.has_anomaly
         and st.session_state.anomaly_type == "order_shuffle"
     ):
-        # 毎回確実に崩れるようにシャッフル
         random.shuffle(spots)
 
-    # 各種異変の適用チェック
+    # UI異変チェック
     if (
         st.session_state.has_anomaly
         and st.session_state.anomaly_type == "button_reverse"
@@ -231,7 +234,6 @@ else:
         display_image = spot["normal_image"]
         is_text_anomaly = False
 
-        # 特定のスポットに個別の異変（text, image, name）を適用
         if (
             st.session_state.has_anomaly
             and st.session_state.anomaly_spot_index == idx
