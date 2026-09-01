@@ -404,40 +404,30 @@ else:
                 )
             st.rerun()
 
-    # ★修正：ボタンのキーとウィジェットを固定し、反転時は描画するカラムの順序を切り替える
+    # ★修正：物理的なカラム位置（左・右）ごとに固定のキーを維持し、配置する中身だけを切り替える
     col1, col2 = st.columns(2)
 
     if not is_button_reversed:
-        with col1:
-            if st.button(
-                "➡️ 次の観光案内へ\n(異変なし)",
-                key="btn_next",
-                type="secondary",
-                use_container_width=True,
-            ):
-                handle_choice(chose_reload=False)
-        with col2:
-            if st.button(
-                "🔄 再読み込みする\n(異変あり)",
-                key="btn_reload",
-                type="primary",
-                use_container_width=True,
-            ):
-                handle_choice(chose_reload=True)
+        left_label, left_reload, left_type = "➡️ 次の観光案内へ\n(異変なし)", False, "secondary"
+        right_label, right_reload, right_type = "🔄 再読み込みする\n(異変あり)", True, "primary"
     else:
-        with col1:
-            if st.button(
-                "🔄 再読み込みする\n(異変あり)",
-                key="btn_reload",
-                type="primary",
-                use_container_width=True,
-            ):
-                handle_choice(chose_reload=True)
-        with col2:
-            if st.button(
-                "➡️ 次の観光案内へ\n(異変なし)",
-                key="btn_next",
-                type="secondary",
-                use_container_width=True,
-            ):
-                handle_choice(chose_reload=False)
+        left_label, left_reload, left_type = "🔄 再読み込みする\n(異変あり)", True, "primary"
+        right_label, right_reload, right_type = "➡️ 次の観光案内へ\n(異変なし)", False, "secondary"
+
+    with col1:
+        if st.button(
+            left_label,
+            key="btn_left_fixed",
+            type=left_type,
+            use_container_width=True,
+        ):
+            handle_choice(chose_reload=left_reload)
+
+    with col2:
+        if st.button(
+            right_label,
+            key="btn_right_fixed",
+            type=right_type,
+            use_container_width=True,
+        ):
+            handle_choice(chose_reload=right_reload)
