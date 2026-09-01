@@ -368,40 +368,49 @@ else:
                 )
             st.rerun()
 
-    # ★修正：ボタン自体を条件分岐で入れ替えず、配置に応じてラベル・処理・スタイルを動的に割り当てる
-    col1, col2 = st.columns(2)
-
+    # ★修正：ウィジェットの構造自体は固定し、ボタンの割り当て（ラベル・アクション・種類）を切り替える
     if not is_button_reversed:
-        label_left = "➡️ 次の観光案内へ\n(異変なし)"
-        type_left = "secondary"
-        action_left = lambda: handle_choice(chose_reload=False)
-
-        label_right = "🔄 再読み込みする\n(異変あり)"
-        type_right = "primary"
-        action_right = lambda: handle_choice(chose_reload=True)
+        # 通常配置（左：次へ、右：再読み込み）
+        left_config = {
+            "label": "➡️ 次の観光案内へ\n(異変なし)",
+            "type": "secondary",
+            "action": lambda: handle_choice(chose_reload=False),
+        }
+        right_config = {
+            "label": "🔄 再読み込みする\n(異変あり)",
+            "type": "primary",
+            "action": lambda: handle_choice(chose_reload=True),
+        }
     else:
-        label_left = "🔄 再読み込みする\n(異変あり)"
-        type_left = "primary"
-        action_left = lambda: handle_choice(chose_reload=True)
+        # 逆転配置（左：再読み込み、右：次へ）
+        left_config = {
+            "label": "🔄 再読み込みする\n(異変あり)",
+            "type": "primary",
+            "action": lambda: handle_choice(chose_reload=True),
+        }
+        right_config = {
+            "label": "➡️ 次の観光案内へ\n(異変なし)",
+            "type": "secondary",
+            "action": lambda: handle_choice(chose_reload=False),
+        }
 
-        label_right = "➡️ 次の観光案内へ\n(異変なし)"
-        type_right = "secondary"
-        action_right = lambda: handle_choice(chose_reload=False)
+    col1, col2 = st.columns(2)
 
     with col1:
         if st.button(
-            label_left,
+            left_config["label"],
             key="btn_action_left",
             use_container_width=True,
-            type=type_left,
+            type=left_config["type"],
         ):
-            action_left()
+            left_config["action"]()
 
     with col2:
         if st.button(
-            label_right,
+            right_config["label"],
             key="btn_action_right",
             use_container_width=True,
-            type=type_right,
+            type=right_config["type"],
         ):
-            action_right()
+            right_config["action"]()
+```[cite: 6]
