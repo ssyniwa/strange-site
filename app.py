@@ -368,7 +368,7 @@ else:
                 )
             st.rerun()
 
-    # ★修正：固定のキーを使用し、配置の反転に応じて描画するカラムと中身を直接入れ替える
+    # ★修正：ボタンのキーとウィジェットを固定し、反転時は描画するカラムの順序を切り替える
     col1, col2 = st.columns(2)
 
     if not is_button_reversed:
@@ -405,4 +405,3 @@ else:
                 use_container_width=True,
             ):
                 handle_choice(chose_reload=False)
-    
