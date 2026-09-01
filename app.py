@@ -167,7 +167,7 @@ def init_round():
             target_idx = random.randint(0, len(spots_copy) - 1)
             st.session_state.anomaly_spot_index = target_idx
 
-    # ★追加：このラウンド専用の並び順をあらかじめ確定させてセッションに保持する
+    # ★変更：ここで一度だけシャッフルを確定させ、セッションに保持する
     if st.session_state.has_anomaly and st.session_state.anomaly_type == "order_shuffle":
         random.shuffle(spots_copy)
 
@@ -234,13 +234,7 @@ else:
     spots = st.session_state.current_spots
     is_button_reversed = False
 
-    # 配置異変（order_shuffle）の場合
-    if (
-        st.session_state.has_anomaly
-        and st.session_state.anomaly_type == "order_shuffle"
-    ):
-        
-        pass
+    
     # UI異変チェック
     if (
         st.session_state.has_anomaly
