@@ -15,8 +15,9 @@ st.markdown(
     .horror-text {
         font-family: 'Creepster', cursive, sans-serif;
         color: #ff0033;
-        font-size: 1.2rem;
-        letter-spacing: 2px;
+        font-size: 1.1rem;
+        letter-spacing: 1px;
+        line-height: 1.6;
     }
     .date-header {
         font-size: 1.5rem;
@@ -29,97 +30,97 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# --- 架空の人気観光地10種データ ---
+# --- 架空の人気観光地10種データ（テキストを長めに修正） ---
 ALL_SPOTS = [
     {
         "id": "spot_1",
         "name": "セレスティア浮遊島",
-        "normal_text": "雲の上に浮かぶ神聖な島。黄金の鐘の音が人々の心を癒やします。",
+        "normal_text": "雲の遥か上空に悠然と浮かぶ神聖なる天空の島。中心にそびえ立つ大聖堂からは、毎日定刻になると澄み切った黄金の鐘の音が響き渡り、訪れるすべての旅人の心を深く癒やしてくれます。島内には色鮮やかな天空の花々が咲き乱れ、穏やかな風が吹き抜ける楽園として多くの観光客に愛され続けています。",
         "normal_image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
         "horror_image": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
         "fake_name": "墜落せるセレスティア廃墟",
-        "horror_text": "雲の上に浮かぶ神聖な島。黄金の鐘の音は止み、血の雨が人々の心を奪う。血塗られた鐘が狂気を告げる。",
+        "horror_text": "雲の遥か上空に浮かぶはずの島は見る影もなく崩壊している。黄金の鐘の音は完全に止み、代わりに参加者たちの絶叫と血の雨が人々の精神を狂わせる。血塗られた鐘の残骸だけが、訪れた者に終わりのない絶望と逃れられない狂気を告げ続けている。",
     },
     {
         "id": "spot_2",
         "name": "ネオンヴェール水晶宮",
-        "normal_text": "七色に輝くクリスタルに囲まれた幻想的な宮殿。美しい音楽が響きます。",
+        "normal_text": "七色にまばゆく輝く巨大なクリスタルで全体が構築された、息をのむほど幻想的な宮殿。ドーム型の天井からは星屑のような光が降り注ぎ、宮殿の専属楽団による心地よい弦楽器の調べが館内を優しく包み込みます。夜になるとクリスタルがライトアップされ、言葉を失うほどの美しさを堪能できます。",
         "normal_image": "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=800&q=80",
         "horror_image": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80",
         "fake_name": "呪縛のネオンヴェール牢獄",
-        "horror_text": "七色に輝くクリスタルに囲まれた幻想的な宮殿。美しい音楽は絶叫とかわり、クリスタルに無数の顔が浮かぶ。",
+        "horror_text": "七色に輝くはずのクリスタルはどす黒く濁り、不気味な脈動を繰り返している。かつての美しい弦楽の調べは耳をつんざくような悲鳴へと変わり、透明な水晶の壁の内部には、閉じ込められた無数の歪んだ人間の顔が無数に浮かび上がりながらこちらを睨みつけている。",
     },
     {
         "id": "spot_3",
         "name": "アストラル星見台",
-        "normal_text": "満天の星空を観測する巨大な天文台。夜風が心地よく吹き抜けます。",
+        "normal_text": "遮るものが何もない高台にそびえ立つ、世界最大級の巨大な天体観測施設。夜空に広がる満天の星々や天の川を肉眼でも鮮明に捉えることができ、天文ファンにとっては聖地とも言える場所です。備え付けの大型望遠鏡を覗けば、時空を超えた宇宙の神秘を肌で感じ、心地よい夜風が火照った頬をクールダウンしてくれます。",
         "normal_image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80",
         "horror_image": "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80",
         "fake_name": "アストラル死霊観測所",
-        "horror_text": "満天の星空を観測する巨大な天文台。星はすべて消え去り、暗闇から何者かが見つめている。",
+        "horror_text": "頭上に広がっていたはずの満天の星空は完全に消え去り、漆黒の虚無が広がっている。巨大な望遠鏡のレンズを覗き込んではならない。そこには地球のものではない巨大な眼球が、暗闇の中からあなたをロックオンして這い寄ってくる恐ろしい光景が映し出されている。",
     },
     {
         "id": "spot_4",
         "name": "ヴェルデ深緑の迷宮庭園",
-        "normal_text": "どこまでも続く美しい緑の生垣迷路。可愛らしい小鳥のさえずりが聞こえます。",
+        "normal_text": "何世代にもわたって手入れされてきた、どこまでも続く美しく巨大な緑の生垣迷路。高さ3メートルを超える幾何学的な植え込みを抜けながら、ゴールを目指す爽快なアクティビティとしてファミリー層に大人気です。足元には可愛らしい小鳥たちがさえずり、緑豊かなアロマの香りが日々の疲れをリフレッシュさせます。",
         "normal_image": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80",
         "horror_image": "https://images.unsplash.com/photo-1511497584788-876761142212?auto=format&fit=crop&w=800&q=80",
         "fake_name": "ヴェルデ血塗られた茨の庭",
-        "horror_text": "どこまでも続く美しい緑の生垣迷路。可愛らしい小鳥のさえずりは死体の群れへと変わる。",
+        "horror_text": "美しかった緑の生垣は鋭い黒い茨へと変貌し、歩くたびに衣服を引き裂く。可愛らしい小鳥のさえずりは、迷路のあちこちに転がる無残な死体の群れから発せられる呻き声へと変わった。一度足を踏み入れたが最後、出口にたどり着く者は二度と生きて帰ることはできない。",
     },
     {
         "id": "spot_5",
         "name": "オーロラ・グレイシャー",
-        "normal_text": "青白く輝く巨大な氷河。澄んだ空気の中、オーロラが優雅に揺らめきます。",
+        "normal_text": "太陽光を受けて青白く神々しく輝く、壮大で圧倒的なスケールの巨大氷河。一年を通して澄んだ冷涼な空気に満たされており、夜間には頭上に鮮やかなエメラルドグリーンのオーロラが優雅に揺らめきます。氷の洞窟ツアーでは、数万年の時を閉じ込めた神秘的なブルーの氷の世界を安全に体験できます。",
         "normal_image": "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=800&q=80",
         "horror_image": "https://images.unsplash.com/photo-1483921020237-2ff51e8e4b22?auto=format&fit=crop&w=800&q=80",
         "fake_name": "凍結せる呪いの氷壁",
-        "horror_text": "青白く輝く巨大な氷河。澄んだ空気の中、氷の中に閉じ込められた者たちが助けを求めている。",
+        "horror_text": "青白く輝いていたはずの氷河は赤黒く凍てつき、周囲の空気は息が凍るほどの殺気で満ちている。オーロラではなく不気味な紫色の歪んだ光が揺らめく中、分厚い氷の壁の内側から、凍えながらも助けを求めて必死に引っ掻き傷をつける無数の冷たい手がこちらに伸びている。",
     },
     {
         "id": "spot_6",
         "name": "サンセット・ミラージュ港",
-        "normal_text": "夕陽が海面を黄金色に染める穏やかな港町。活気ある市場が人気です。",
+        "normal_text": "水平線に沈む夕陽が海面をどこまでも鮮やかな黄金色に染め上げる、穏やかで美しい港町。毎夕開催される名物の朝市（夕市）では、地元の漁師たちが獲れたての新鮮な海の幸を豪快に振る舞い、観光客と地元住民の笑顔と活気ある賑わいに包まれています。潮風が心地よい最高のロケーションです。",
         "normal_image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
         "horror_image": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80",
         "fake_name": "難破船の墓場サンセット港",
-        "horror_text": "夕陽が海面を黄金色に染める穏やかな港町。市場には腐敗した生肉と得体の知れない眼球が並ぶ。",
+        "horror_text": "夕陽で黄金色に染まるはずの海面は血の海のようにドロドロに濁り、異臭を放っている。活気あるはずの市場の屋台には、魚介類の代わりに腐敗した生肉と、生々しい人間の眼球や臓器が生々しくずらりと並べられている。誰もいない桟橋から、海面に向かって引きずり込まれる足音が近づく。",
     },
     {
         "id": "spot_7",
         "name": "クロノス古代時計塔",
-        "normal_text": "時を刻み続ける荘厳な大時計塔。毎正時に美しいメロディが流れます。",
+        "normal_text": "中世の建築美をそのまま残し、遥かなる時を正確に刻み続ける荘厳な大時計塔。歴史のロマンを感じさせる巨大な歯車が組み合わさり、毎正時になると街中に心地よい美しいメロディが流れて人々を魅了します。塔の展望台からは街全体が一望でき、写真撮影のスポットとしても絶大な人気を誇っています。",
         "normal_image": "https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=800&q=80",
         "horror_image": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?auto=format&fit=crop&w=800&q=80",
         "fake_name": "時を止める断頭時計塔",
-        "horror_text": "時を刻み続ける荘厳な大時計塔。針は逆回転し、全ての時間は完全に凍てついた。",
+        "horror_text": "時を刻むはずの巨大な針は恐ろしい速度で逆回転を始め、塔全体が耳障りな金切り声を上げている。毎正時に流れるはずのメロディは、処刑台のギロチンが落下する不気味な金属音に置き換わり、時計の歯車の間からは無数の血飛沫が絶えず滴り落ちている。",
     },
     {
         "id": "spot_8",
         "name": "シルフィード風車村",
-        "normal_text": "なだらかな丘に並ぶ巨大な風車。のどかな牧歌的風景が広がっています。",
+        "normal_text": "見渡す限りのなだらかな緑の丘陵に、白い巨大な風車がゆっくりと並び立つ牧歌的な村。常に心地よいそよ風が吹き抜けており、伝統的な牧畜文化が息づくのどかな風景が広がっています。村の工房で焼き上げられる香ばしい自家製パンと新鮮なミルクは、旅の疲れを優しく癒やしてくれる最高の贅沢です。",
         "normal_image": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=800&q=80",
         "horror_image": "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80",
         "fake_name": "狂気の風車挽肉村",
-        "horror_text": "なだらかな丘に並ぶ巨大な風車。風車の羽から聞こえるのは、何者かの骨が砕ける音だ。",
+        "horror_text": "のどかな丘に並ぶ巨大な風車の羽は猛烈な勢いで回転し、周囲に異常な風圧を撒き散らしている。風車の内部から聞こえてくるのは風の音ではなく、巨大な石臼ですり潰される人間の骨が激しく砕ける、おぞましい轟音と叫び声である。",
     },
     {
         "id": "spot_9",
         "name": "ルミナス黄金神殿",
-        "normal_text": "太陽の光を浴びてまばゆく輝く神聖な神殿。平和の祈りが捧げられます。",
+        "normal_text": "古代の太陽神を祀る、太陽の光を浴びてまばゆく黄金色に輝く神聖な大神殿。精巧な彫刻が施された巨大な柱が立ち並び、神殿の内部では世界の平和と豊穣を祈る厳かな儀式が日々執り行われています。神殿の周囲に広がる聖なる泉の水面は鏡のように空を映し出し、訪れる者に神秘的な安らぎをもたらします。",
         "normal_image": "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80",
         "horror_image": "https://images.unsplash.com/photo-1511497584788-876761142212?auto=format&fit=crop&w=800&q=80",
         "fake_name": "冒涜の生贄神殿",
-        "horror_text": "太陽の光を浴びてまばゆく輝く神聖な神殿。黄金はすべて錆び、神の姿は跡形もなく消え失せた。",
+        "horror_text": "太陽の光を浴びて輝くはずの黄金はどす黒く錆び果て、神殿全体が禍々しいオーラに包まれている。平和の祈りが捧げられていた祭壇の上には、生贄として捧げられた者たちの肉片が散乱し、神の姿は完全に消え失せ、代わりに得体の知れない肉の塊が蠢いている。",
     },
     {
         "id": "spot_10",
         "name": "アイリス霧の渓谷温泉",
-        "normal_text": "豊かな湯けむりに包まれた秘境の温泉郷。心身をリラックスさせます。",
+        "normal_text": "深い森と豊かな湯けむりに包まれた、険しい渓谷の奥地にひっそりと佇む秘境の温泉郷。湧き出る天然温泉は神経痛や疲労回復に抜群の効果があると評判で、心身ともに極上のリラクゼーションを味わえます。立ち込める白銀の湯けむりの向こうには、季節ごとに表情を変える美しい渓谷の絶景が広がっています。",
         "normal_image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80",
         "horror_image": "https://images.unsplash.com/photo-1483921020237-2ff51e8e4b22?auto=format&fit=crop&w=800&q=80",
         "fake_name": "猛毒の血の池温泉",
-        "horror_text": "豊かな湯けむりに包まれた秘境の温泉郷。湯船から立ち上るのは沸騰した血の臭いである。",
+        "horror_text": "豊かな湯けむりに包まれているはずの温泉郷一帯は、強烈な酸性の異臭と熱い血煙に覆われている。美しい渓谷の湯船からもうもうと立ち上るのは、沸騰した人間の血と溶解した肉の臭いそのものである。湯に足を踏み入れた瞬間、皮膚がただれて骨へと溶け落ちる。",
     },
 ]
 
@@ -145,7 +146,7 @@ TOTAL_DAYS = 10
 def init_round():
     spots_copy = [dict(s) for s in ALL_SPOTS]
 
-    # 1日目は必ず異しゃれ無し（正常）にする
+    # 1日目は必ず異変なし（正常）にする
     if st.session_state.day == 1:
         st.session_state.has_anomaly = False
         st.session_state.anomaly_type = None
@@ -214,7 +215,6 @@ elif st.session_state.day > TOTAL_DAYS:
 
 # プレイ中画面（8/10 ~ 8/19）
 else:
-    # 日付の計算 (第1日目 = 8/10, 第2日目 = 8/11, ..., 第10日目 = 8/19)
     current_date_str = f"8月{9 + st.session_state.day}日"
 
     st.markdown(
@@ -241,41 +241,105 @@ else:
     ):
         is_button_reversed = True
 
-    # 10種の観光案内カードを順番に表示
-    for idx, spot in enumerate(spots):
-        display_name = spot["name"]
-        display_text = spot["normal_text"]
-        display_image = spot["normal_image"]
-        is_text_anomaly = False
+    # 10種の観光案内を2つずつ並べて表示するために、2つずつのペアに分割
+    for i in range(0, len(spots), 2):
+        col_pair1, col_pair2 = st.columns(2)
+
+        # 1つ目のスポット
+        spot1 = spots[i]
+        idx1 = ALL_SPOTS.index(
+            next(s for s in ALL_SPOTS if s["id"] == spot1["id"])
+        )  # 元のインデックスではなく現在の表示順位置
+        # 表示中のリスト内でのインデックス
+        actual_idx1 = i
+
+        display_name1 = spot1["name"]
+        display_text1 = spot1["normal_text"]
+        display_image1 = spot1["normal_image"]
+        is_text_anomaly1 = False
 
         if (
             st.session_state.has_anomaly
-            and st.session_state.anomaly_spot_index == idx
+            and st.session_state.anomaly_spot_index is not None
         ):
-            atype = st.session_state.anomaly_type
-            if atype == "text":
-                display_text = spot["horror_text"]
-                is_text_anomaly = True
-            elif atype == "image":
-                display_image = spot["horror_image"]
-            elif atype == "name":
-                display_name = spot["fake_name"]
+            # どのスポットに異変が仕込まれているかをIDベースで判定できるようにする
+            pass
 
-        with st.container(border=True):
-            st.markdown(f"### 📍 [{idx+1}/10] 観光地: {display_name}")
-            st.image(
-                display_image,
-                use_container_width=True,
-                caption="公式観光ガイド画像",
-            )
+    # スポットごとの描画を綺麗に行うため、リストを直接ループして2カラムに分けるより、
+    # 2つずつペアを作る形ですべてのカードを生成する
+    for i in range(0, len(spots), 2):
+        cols = st.columns(2)
 
-            if is_text_anomaly:
-                st.markdown(
-                    f'<p class="horror-text">{display_text}</p>',
-                    unsafe_allow_html=True,
-                )
-            else:
-                st.write(display_text)
+        # 左側のスポット
+        with cols[0]:
+            spot_a = spots[i]
+            # ALL_SPOTS または元のリストにおけるこのスポットの元の位置を特定、あるいは現在のインデックスを使う
+            # ここではシンプルに、現在の spots リスト上のインデックス i をターゲットと比較する
+            idx_a = i
+            name_a = spot_a["name"]
+            text_a = spot_a["normal_text"]
+            image_a = spot_a["normal_image"]
+            is_anomaly_text_a = False
+
+            if (
+                st.session_state.has_anomaly
+                and st.session_state.anomaly_spot_index == idx_a
+            ):
+                atype = st.session_state.anomaly_type
+                if atype == "text":
+                    text_a = spot_a["horror_text"]
+                    is_anomaly_text_a = True
+                elif atype == "image":
+                    image_a = spot_a["horror_image"]
+                elif atype == "name":
+                    name_a = spot_a["fake_name"]
+
+            with st.container(border=True):
+                st.markdown(f"### 📍 [{idx_a+1}/10] {name_a}")
+                st.image(image_a, use_container_width=True, caption="公式ガイド")
+                if is_anomaly_text_a:
+                    st.markdown(
+                        f'<p class="horror-text">{text_a}</p>',
+                        unsafe_allow_html=True,
+                    )
+                else:
+                    st.write(text_a)
+
+        # 右側のスポット（存在する場合）
+        if i + 1 < len(spots):
+            with cols[1]:
+                spot_b = spots[i + 1]
+                idx_b = i + 1
+                name_b = spot_b["name"]
+                text_b = spot_b["normal_text"]
+                image_b = spot_b["normal_image"]
+                is_anomaly_text_b = False
+
+                if (
+                    st.session_state.has_anomaly
+                    and st.session_state.anomaly_spot_index == idx_b
+                ):
+                    atype = st.session_state.anomaly_type
+                    if atype == "text":
+                        text_b = spot_b["horror_text"]
+                        is_anomaly_text_b = True
+                    elif atype == "image":
+                        image_b = spot_b["horror_image"]
+                    elif atype == "name":
+                        name_b = spot_b["fake_name"]
+
+                with st.container(border=True):
+                    st.markdown(f"### 📍 [{idx_b+1}/10] {name_b}")
+                    st.image(
+                        image_b, use_container_width=True, caption="公式ガイド"
+                    )
+                    if is_anomaly_text_b:
+                        st.markdown(
+                            f'<p class="horror-text">{text_b}</p>',
+                            unsafe_allow_html=True,
+                        )
+                    else:
+                        st.write(text_b)
 
     if is_button_reversed:
         st.caption("（※ボタンの並び順に妙な違和感がある……）")
