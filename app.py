@@ -152,7 +152,7 @@ def init_round():
         st.session_state.anomaly_type = None
         st.session_state.anomaly_spot_index = None
     else:
-        # 異変の発生率を70%に引き上げ（weights=[7, 3]で調整）
+        # 異変の発生率を70%に引き上げ
         st.session_state.has_anomaly = random.choices(
             [True, False], weights=[7, 3], k=1
         )[0]
@@ -166,6 +166,10 @@ def init_round():
             st.session_state.anomaly_type = anomaly_type
             target_idx = random.randint(0, len(spots_copy) - 1)
             st.session_state.anomaly_spot_index = target_idx
+
+    # ★追加：このラウンド専用の並び順をあらかじめ確定させてセッションに保持する
+    if st.session_state.has_anomaly and st.session_state.anomaly_type == "order_shuffle":
+        random.shuffle(spots_copy)
 
     st.session_state.current_spots = spots_copy
     st.session_state.message = ""
@@ -235,7 +239,7 @@ else:
         st.session_state.has_anomaly
         and st.session_state.anomaly_type == "order_shuffle"
     ):
-        random.shuffle(spots)
+        
         pass
     # UI異変チェック
     if (
