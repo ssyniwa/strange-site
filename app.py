@@ -350,9 +350,6 @@ else:
 
     st.markdown("### 🎛️ アクション選択")
 
-    col1, col2 = st.columns(2)
-
-
     def handle_choice(chose_reload: bool):
         if chose_reload == st.session_state.has_anomaly:
             st.session_state.day += 1
@@ -371,38 +368,40 @@ else:
                 )
             st.rerun()
 
+    # ★修正：ボタン自体を条件分岐で入れ替えず、配置に応じてラベル・処理・スタイルを動的に割り当てる
+    col1, col2 = st.columns(2)
 
     if not is_button_reversed:
-        with col1:
-            if st.button(
-                "➡️ 次の観光案内へ\n(異変なし)",
-                key="btn_action_left",
-                use_container_width=True,
-                type="secondary",
-            ):
-                handle_choice(chose_reload=False)
-        with col2:
-            if st.button(
-                "🔄 再読み込みする\n(異変あり)",
-                key="btn_action_right",
-                use_container_width=True,
-                type="primary",
-            ):
-                handle_choice(chose_reload=True)
+        label_left = "➡️ 次の観光案内へ\n(異変なし)"
+        type_left = "secondary"
+        action_left = lambda: handle_choice(chose_reload=False)
+
+        label_right = "🔄 再読み込みする\n(異変あり)"
+        type_right = "primary"
+        action_right = lambda: handle_choice(chose_reload=True)
     else:
-        with col1:
-            if st.button(
-                "🔄 再読み込みする\n(異変あり)",
-                key="btn_action_left",
-                use_container_width=True,
-                type="primary",
-            ):
-                handle_choice(chose_reload=True)
-        with col2:
-            if st.button(
-                "➡️ 次の観光案内へ\n(異変なし)",
-                key="btn_action_right",
-                use_container_width=True,
-                type="secondary",
-            ):
-                handle_choice(chose_reload=False)
+        label_left = "🔄 再読み込みする\n(異変あり)"
+        type_left = "primary"
+        action_left = lambda: handle_choice(chose_reload=True)
+
+        label_right = "➡️ 次の観光案内へ\n(異変なし)"
+        type_right = "secondary"
+        action_right = lambda: handle_choice(chose_reload=False)
+
+    with col1:
+        if st.button(
+            label_left,
+            key="btn_action_left",
+            use_container_width=True,
+            type=type_left,
+        ):
+            action_left()
+
+    with col2:
+        if st.button(
+            label_right,
+            key="btn_action_right",
+            use_container_width=True,
+            type=type_right,
+        ):
+            action_right()
